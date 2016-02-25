@@ -6,9 +6,11 @@ import com.amazon.service.InvalidAmazonProductIdException;
 
 public class OrderService {
 
+   private AmazonBookService bookService;
+
    public boolean order(String productId, int amountOfProduct) {
       try {
-         return new AmazonBookService().placeOrder(productId, amountOfProduct);
+         return bookService.placeOrder(productId, amountOfProduct);
       } catch (InvalidAmazonProductIdException e) {
          System.out.println("**** Invalid order id");
       } catch (InvalidAmazonProductAmountException e) {
@@ -23,5 +25,9 @@ public class OrderService {
       System.out.println("blah2 order " + (orderService.order("blah2", 20) ? "succeeded" : "failed"));
       System.out.println("null order " + (orderService.order(null, 10) ? "succeeded" : "failed"));
       System.out.println("negative order " + (orderService.order("blah1", -1) ? "succeeded" : "failed"));
+   }
+
+   public void setAmazonBookService(AmazonBookService bookService) {
+      this.bookService = bookService;
    }
 }
