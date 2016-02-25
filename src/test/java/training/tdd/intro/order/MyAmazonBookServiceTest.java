@@ -26,7 +26,7 @@ public class MyAmazonBookServiceTest {
       MyAmazonBookService myAmazonBookService = new MyAmazonBookService();
       myAmazonBookService.setAmazonBookService(mockAmazonBookService);
 
-      myAmazonBookService.order("product", AVAILABLE_INVENTORY);
+      myAmazonBookService.purchase("product", AVAILABLE_INVENTORY);
 
       verify(mockAmazonBookService).placeOrder("product", AVAILABLE_INVENTORY);
    }
@@ -38,7 +38,7 @@ public class MyAmazonBookServiceTest {
       MyAmazonBookService myAmazonBookService = new MyAmazonBookService();
       myAmazonBookService.setAmazonBookService(mockAmazonBookService);
 
-      boolean result = myAmazonBookService.order("product", -1);
+      boolean result = myAmazonBookService.purchase("product", -1);
 
       assertFalse(result);
    }
@@ -51,7 +51,7 @@ public class MyAmazonBookServiceTest {
 
       MyAmazonBookService myAmazonBookService = new MyAmazonBookService();
       myAmazonBookService.setAmazonBookService(mockAmazonBookService);
-      boolean result = myAmazonBookService.order("product", exceededInventory);
+      boolean result = myAmazonBookService.purchase("product", exceededInventory);
 
       assertFalse(result);
    }
@@ -63,6 +63,6 @@ public class MyAmazonBookServiceTest {
       MyAmazonBookService myAmazonBookService = new MyAmazonBookService();
       myAmazonBookService.setAmazonBookService(mockAmazonBookService);
 
-      myAmazonBookService.order("badProductId", 10);
+      myAmazonBookService.purchase("badProductId", 10);
    }
 }
