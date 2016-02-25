@@ -14,7 +14,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class OrderServiceTest {
+public class MyAmazonBookServiceTest {
 
    public static final int AVAILABLE_INVENTORY = 100;
 
@@ -23,10 +23,10 @@ public class OrderServiceTest {
 
    @Test
    public void shouldUseAmazonBookServiceToPlaceOrder() throws InvalidAmazonProductAmountException, InvalidAmazonProductIdException {
-      OrderService orderService = new OrderService();
-      orderService.setAmazonBookService(mockAmazonBookService);
+      MyAmazonBookService myAmazonBookService = new MyAmazonBookService();
+      myAmazonBookService.setAmazonBookService(mockAmazonBookService);
 
-      orderService.order("product", AVAILABLE_INVENTORY);
+      myAmazonBookService.order("product", AVAILABLE_INVENTORY);
 
       verify(mockAmazonBookService).placeOrder("product", AVAILABLE_INVENTORY);
    }
@@ -35,10 +35,10 @@ public class OrderServiceTest {
    public void shouldFailIfOrderIsForNegativeBooks() throws InvalidAmazonProductAmountException, InvalidAmazonProductIdException {
       when(mockAmazonBookService.placeOrder(anyString(), eq(-1))).thenReturn(false);
 
-      OrderService orderService = new OrderService();
-      orderService.setAmazonBookService(mockAmazonBookService);
+      MyAmazonBookService myAmazonBookService = new MyAmazonBookService();
+      myAmazonBookService.setAmazonBookService(mockAmazonBookService);
 
-      boolean result = orderService.order("product", -1);
+      boolean result = myAmazonBookService.order("product", -1);
 
       assertFalse(result);
    }
@@ -49,9 +49,9 @@ public class OrderServiceTest {
       when(mockAmazonBookService.placeOrder(anyString(), eq(AVAILABLE_INVENTORY))).thenReturn(true);
       when(mockAmazonBookService.placeOrder(anyString(), eq(exceededInventory))).thenReturn(false);
 
-      OrderService orderService = new OrderService();
-      orderService.setAmazonBookService(mockAmazonBookService);
-      boolean result = orderService.order("product", exceededInventory);
+      MyAmazonBookService myAmazonBookService = new MyAmazonBookService();
+      myAmazonBookService.setAmazonBookService(mockAmazonBookService);
+      boolean result = myAmazonBookService.order("product", exceededInventory);
 
       assertFalse(result);
    }
@@ -60,9 +60,9 @@ public class OrderServiceTest {
    public void shouldThrowExceptionWhenGivenAnUnknownProductId() throws InvalidAmazonProductAmountException, InvalidAmazonProductIdException {
       when(mockAmazonBookService.placeOrder(eq("badProductId"), anyInt())).thenThrow(InvalidAmazonProductIdException.class);
 
-      OrderService orderService = new OrderService();
-      orderService.setAmazonBookService(mockAmazonBookService);
+      MyAmazonBookService myAmazonBookService = new MyAmazonBookService();
+      myAmazonBookService.setAmazonBookService(mockAmazonBookService);
 
-      orderService.order("badProductId", 10);
+      myAmazonBookService.order("badProductId", 10);
    }
 }

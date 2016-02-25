@@ -4,7 +4,7 @@ import com.amazon.service.AmazonBookService;
 import com.amazon.service.InvalidAmazonProductAmountException;
 import com.amazon.service.InvalidAmazonProductIdException;
 
-public class OrderService {
+public class MyAmazonBookService {
 
    private AmazonBookService bookService;
 
@@ -21,11 +21,11 @@ public class OrderService {
    }
 
    public static void main(String[] args) {
-      OrderService orderService = new OrderService();
-      System.out.println("blah1 order " + (orderService.order("blah1", 5) ? "succeeded" : "failed"));
-      System.out.println("blah2 order " + (orderService.order("blah2", 20) ? "succeeded" : "failed"));
-      System.out.println("null order " + (orderService.order(null, 10) ? "succeeded" : "failed"));
-      System.out.println("negative order " + (orderService.order("blah1", -1) ? "succeeded" : "failed"));
+      MyAmazonBookService myAmazonBookService = new MyAmazonBookService();
+      System.out.println("blah1 order " + (myAmazonBookService.order("blah1", 5) ? "succeeded" : "failed"));
+      System.out.println("blah2 order " + (myAmazonBookService.order("blah2", 20) ? "succeeded" : "failed"));
+      System.out.println("null order " + (myAmazonBookService.order(null, 10) ? "succeeded" : "failed"));
+      System.out.println("negative order " + (myAmazonBookService.order("blah1", -1) ? "succeeded" : "failed"));
    }
 
    public void setAmazonBookService(AmazonBookService bookService) {
