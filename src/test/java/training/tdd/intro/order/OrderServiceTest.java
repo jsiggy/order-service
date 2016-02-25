@@ -17,6 +17,8 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class OrderServiceTest {
 
+   public static final int AVAILABLE_INVENTORY = 100;
+
    @Mock
    private AmazonBookService mockAmazonBookService;
 
@@ -25,9 +27,9 @@ public class OrderServiceTest {
       OrderService orderService = new OrderService();
       orderService.setAmazonBookService(mockAmazonBookService);
 
-      orderService.order("product", 100);
+      orderService.order("product", AVAILABLE_INVENTORY);
 
-      verify(mockAmazonBookService).placeOrder("product", 100);
+      verify(mockAmazonBookService).placeOrder("product", AVAILABLE_INVENTORY);
    }
 
    @Test
@@ -38,6 +40,19 @@ public class OrderServiceTest {
       orderService.setAmazonBookService(mockAmazonBookService);
 
       boolean result = orderService.order("product", -1);
+
+      assertFalse(result);
+   }
+
+   @Test
+   public void shouldFailWhenInsufficientInventory() throws InvalidAmazonProductAmountException, InvalidAmazonProductIdException {
+      int exceededInventory = AVAILABLE_INVENTORY + 1;
+      when(mockAmazonBookService.placeOrder(anyString(), eq(AVAILABLE_INVENTORY))).thenReturn(true);
+      when(mockAmazonBookService.placeOrder(anyString(), eq(exceededInventory))).thenReturn(false);
+
+      OrderService orderService = new OrderService();
+      orderService.setAmazonBookService(mockAmazonBookService);
+      boolean result = orderService.order("product", exceededInventory);
 
       assertFalse(result);
    }
