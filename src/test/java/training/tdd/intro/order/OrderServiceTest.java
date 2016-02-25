@@ -9,8 +9,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.junit.Assert.assertFalse;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -55,5 +54,15 @@ public class OrderServiceTest {
       boolean result = orderService.order("product", exceededInventory);
 
       assertFalse(result);
+   }
+
+   @Test(expected = UnknownProductIdException.class)
+   public void shouldThrowExceptionWhenGivenAnUnknownProductId() throws InvalidAmazonProductAmountException, InvalidAmazonProductIdException {
+      when(mockAmazonBookService.placeOrder(eq("badProductId"), anyInt())).thenThrow(InvalidAmazonProductIdException.class);
+
+      OrderService orderService = new OrderService();
+      orderService.setAmazonBookService(mockAmazonBookService);
+
+      orderService.order("badProductId", 10);
    }
 }
