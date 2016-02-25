@@ -9,7 +9,10 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.junit.Assert.assertFalse;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OrderServiceTest {
@@ -28,10 +31,11 @@ public class OrderServiceTest {
    }
 
    @Test
-   public void shouldFailIfOrderIsForNegativeBooks() {
-      AmazonBookService amazonBookService = new AmazonBookService();
+   public void shouldFailIfOrderIsForNegativeBooks() throws InvalidAmazonProductAmountException, InvalidAmazonProductIdException {
+      when(mockAmazonBookService.placeOrder(anyString(), eq(-1))).thenReturn(false);
+
       OrderService orderService = new OrderService();
-      orderService.setAmazonBookService(amazonBookService);
+      orderService.setAmazonBookService(mockAmazonBookService);
 
       boolean result = orderService.order("product", -1);
 
