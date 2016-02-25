@@ -5,6 +5,7 @@ import com.amazon.service.InvalidAmazonProductAmountException;
 import com.amazon.service.InvalidAmazonProductIdException;
 import org.junit.Test;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class OrderServiceTest {
@@ -17,6 +18,17 @@ public class OrderServiceTest {
       orderService.order("product", 100);
 
       assertTrue(mockAmazonBookService.wasCalled);
+   }
+
+   @Test
+   public void shouldFailIfOrderIsForNegativeBooks() {
+      AmazonBookService amazonBookService = new AmazonBookService();
+      OrderService orderService = new OrderService();
+      orderService.setAmazonBookService(amazonBookService);
+
+      boolean result = orderService.order("product", -1);
+
+      assertFalse(result);
    }
 
    private class MockAmazonBookService extends AmazonBookService {
