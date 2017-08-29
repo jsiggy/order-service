@@ -19,9 +19,10 @@ public class OrderService {
 
    public static void main(String[] args) {
       OrderService orderService = new OrderService();
-      System.out.println("blah1 order " + (orderService.order("blah1", 5) ? "succeeded" : "failed"));
-      System.out.println("blah2 order " + (orderService.order("blah2", 20) ? "succeeded" : "failed"));
-      System.out.println("null order " + (orderService.order(null, 10) ? "succeeded" : "failed"));
-      System.out.println("negative order " + (orderService.order("blah1", -1) ? "succeeded" : "failed"));
+
+      System.out.println("placing an order: " + (orderService.order("Foo", 5) ? "succeeded" : "failed"));
+      System.out.println("placing another order: " + (orderService.order("Bar", 20) ? "succeeded" : "failed"));
+      System.out.println("placing order with null product Id: " + (orderService.order(null, 10) ? "succeeded" : "failed"));
+      System.out.println("placing order for negative # of books: " + (orderService.order("Baz", -1) ? "succeeded" : "failed"));
    }
 }
