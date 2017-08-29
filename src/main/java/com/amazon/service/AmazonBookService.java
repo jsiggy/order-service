@@ -4,7 +4,7 @@ public class AmazonBookService {
 
    public boolean placeOrder(String productId, int units) throws InvalidAmazonProductIdException, InvalidAmazonProductAmountException {
       System.out.println("calling Amazon Book Service for " + units + " units of " + productId);
-      networkLatencyDelay();
+      simulateNetworkLatencyDelay();
       if (productId == null || productId.length() < 5)
          throw new InvalidAmazonProductIdException("Invalid product id: " + productId);
       if (units < 0)
@@ -13,7 +13,7 @@ public class AmazonBookService {
       return units < 10;
    }
 
-   private static void networkLatencyDelay() {
+   private static void simulateNetworkLatencyDelay() {
       try {
          Thread.sleep(10000);
       } catch (InterruptedException e) {
