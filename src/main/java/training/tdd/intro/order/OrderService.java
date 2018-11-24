@@ -20,9 +20,16 @@ public class OrderService {
    public static void main(String[] args) {
       OrderService orderService = new OrderService();
 
-      System.out.println("placing an order: " + (orderService.order("Foo", 5) ? "succeeded" : "failed"));
-      System.out.println("placing another order: " + (orderService.order("Bar", 20) ? "succeeded" : "failed"));
-      System.out.println("placing order with null product Id: " + (orderService.order(null, 10) ? "succeeded" : "failed"));
-      System.out.println("placing order for negative # of books: " + (orderService.order("Baz", -1) ? "succeeded" : "failed"));
+      boolean validProduct = orderService.order("ValidProductId", 5);
+      System.out.println("placing an order: " + (validProduct ? "succeeded" : "failed") + "\n");
+
+      boolean invalidProductId = orderService.order("BadProductId", 20);
+      System.out.println("placing another order: " + (invalidProductId ? "succeeded" : "failed") + "\n");
+
+      boolean nullProductId = orderService.order(null, 10);
+      System.out.println("placing order with Null product Id: " + (nullProductId ? "succeeded" : "failed") + "\n");
+
+      boolean negativeQuantityOrder = orderService.order("ValidProductId", -1);
+      System.out.println("placing order for negative # of books: " + (negativeQuantityOrder ? "succeeded" : "failed") + "\n");
    }
 }
